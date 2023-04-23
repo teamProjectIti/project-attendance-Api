@@ -53,7 +53,7 @@ namespace WebApplication1.Area
 
 
 
-            [HttpPost("createMeeting")]
+        [HttpPost("createMeeting")]
         public async Task<IActionResult> createMeeting(MeetingDto model)
         {
             try
@@ -64,11 +64,9 @@ namespace WebApplication1.Area
                     Date= DateTime.Now,
                 };
 
-
-
                 _context.Meetings.Add(obj);
                 _context.SaveChanges();
-                return Ok($"Success Create Meeting Id = {obj.Id}");
+                return Ok(obj);
             }
             catch (Exception)
             {

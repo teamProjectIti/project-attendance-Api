@@ -47,25 +47,25 @@ namespace WebApplication1.Area
             }
 
             string imagesPAth = @"\ImageUser\default.png";
-            if (ModelState.IsValid)
-            {
-                var files = HttpContext.Request.Form.Files;
-                if (files.Count() > 0)
-                {
-                    Guid d = Guid.NewGuid();
+            //if (ModelState.IsValid)
+            //{
+            //    var files = HttpContext.Request.Form.Files;
+            //    if (files.Count() > 0)
+            //    {
+            //        Guid d = Guid.NewGuid();
 
-                    string host = _webHostEnvironment.WebRootPath;
-                    string ImageName = DateTime.Now.ToFileTime().ToString() + Path.GetExtension(files[0].FileName);
-                    FileStream fileStream = new FileStream(Path.Combine(host, "ImageUser", d + ImageName), FileMode.Create);
-                    files[0].CopyTo(fileStream);
+            //        string host = _webHostEnvironment.WebRootPath;
+            //        string ImageName = DateTime.Now.ToFileTime().ToString() + Path.GetExtension(files[0].FileName);
+            //        FileStream fileStream = new FileStream(Path.Combine(host, "ImageUser", d + ImageName), FileMode.Create);
+            //        files[0].CopyTo(fileStream);
 
-                    imagesPAth = @"\InstructorePhoto\" + d + ImageName;
-                }
-            }
-            else
-            {
-                return BadRequest("plz, provide all The required fields");
-            }
+            //        imagesPAth = @"\InstructorePhoto\" + d + ImageName;
+            //    }
+            //}
+            //else
+            //{
+            //    return BadRequest("plz, provide all The required fields");
+            //}
             ApplicationUser user = new ApplicationUser()
             {
                 FirstName = registerVM.FirstName,
