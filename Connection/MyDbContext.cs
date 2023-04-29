@@ -10,6 +10,7 @@ namespace WebApplication1.Connection
     {
         public DbSet<Meeting> Meetings { get; set; }
         public DbSet<Attendance> Attendances { get; set; }
+        public DbSet<ManageUser> ManageUsers { get; set; }
 
         public MyDbContext(DbContextOptions<MyDbContext> options) : base(options)
         {

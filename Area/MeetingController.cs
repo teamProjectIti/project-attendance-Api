@@ -16,13 +16,11 @@ namespace WebApplication1.Area
     {
 
         private readonly MyDbContext _context;
-        private readonly UserManager<ApplicationUser> _userManager;
-
-        public MeetingController(MyDbContext context, UserManager<ApplicationUser> userManager)
+ 
+        public MeetingController(MyDbContext context )
         {
             _context = context;
-            _userManager = userManager;
-        }
+         }
         [HttpGet("GetAllMeeting")]
         public async Task<IActionResult> GetAllMeeting([FromQuery]PagnationDto Model)
         {
