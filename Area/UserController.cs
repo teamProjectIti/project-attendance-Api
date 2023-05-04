@@ -67,6 +67,7 @@ namespace YourProject.Controllers
             var data = _mapper.Map<List<UserDto>>(user);
 
             return Ok(data);
+
         }
 
         // POST: api/User

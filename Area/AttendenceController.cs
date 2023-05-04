@@ -3,8 +3,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using WebApplication1.Connection;
 using WebApplication1.Controllers;
+using WebApplication1.Dto.AttendenceUser;
 using WebApplication1.Model.Attend;
-using WebApplication1.Model.Meetings;
 using WebApplication1.Model.User;
 
 namespace WebApplication1.Area
@@ -22,11 +22,11 @@ namespace WebApplication1.Area
             _userManager = userManager;
         }
         [HttpGet("GetAllAttendance")]
-        public async Task<IActionResult> GetAllAttendance()
+        public async Task<IActionResult> GetAllAttendance(DateTime date)
         {
             try
             {
-                var AllMeetingDb = await _context.Attendances.ToListAsync();
+                var AllMeetingDb = await _context.Attendances.Where(x=>x.TimeComing==date).ToListAsync();
 
                 return Ok(AllMeetingDb);
             }
@@ -72,7 +72,7 @@ namespace WebApplication1.Area
 
 
         [HttpPost("attendUserMeeting")]
-        public async Task<IActionResult> attendUserMeeting(Attendance model)
+        public async Task<IActionResult> attendUserMeeting(AttendenceDto model)
         {
             try
             {
@@ -85,10 +85,15 @@ namespace WebApplication1.Area
                 if (await _userManager.FindByIdAsync(model.UserId) == null)
                     return NotFound("Not Found This User");
 
-                model.Attended = true;
-                model.TimeComing = DateTime.UtcNow;
+                var obj = new Attendance()
+                {
+                    UserId = model.UserId,
+                    MeetingId = model.MeetingId,
+                    TimeComing = DateTime.UtcNow,
+                    Attended = true
+                };
 
-                _context.Attendances.Add(model);
+                _context.Attendances.Add(obj);
                 _context.SaveChanges();
                 return Ok($"Success Create Meeting {model}");
             }
@@ -99,7 +104,7 @@ namespace WebApplication1.Area
         }
 
         [HttpPost("attendNotComingUserMeeting")]
-        public async Task<IActionResult> attendNotComingUserMeeting(Attendance model)
+        public async Task<IActionResult> attendNotComingUserMeeting(AttendenceDto model)
         {
             try
             {
@@ -112,10 +117,15 @@ namespace WebApplication1.Area
                 if (await _userManager.FindByIdAsync(model.UserId) == null)
                     return NotFound("Not Found This User");
 
-                model.Attended = false;
-                model.TimeComing = DateTime.UtcNow;
+                var obj = new Attendance()
+                {
+                    UserId = model.UserId,
+                    MeetingId = model.MeetingId,
+                    TimeComing = DateTime.UtcNow,
+                    Attended = false
+                };
 
-                _context.Attendances.Add(model);
+                _context.Attendances.Add(obj);
                 _context.SaveChanges();
                 return Ok($"Success Create Meeting {model}");
             }
